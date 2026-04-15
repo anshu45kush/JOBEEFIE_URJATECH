@@ -1,148 +1,217 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/context/LanguageContext';
-import LanguageToggle from '@/components/LanguageToggle';
-import CompanyLogo from '@/components/CompanyLogo';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Phone, Mail, ChevronRight, Zap } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
+import CompanyLogo from "@/components/CompanyLogo";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [active, setActive] = useState("");
   const { t } = useLanguage();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { name: t.header.home, href: '#home' },
-    { name: "Govt. Schemes", href: '#schemes' },
-    { name: t.header.cibil, href: '#cibil' }, // Added CIBIL Link
-    { name: t.header.services, href: '#services' },
-    { name: t.header.products, href: '#products' },
-    { name: t.header.contact, href: '#contact' }
+    { name: t.header.home, href: "#home" },
+    { name: "Govt. Schemes", href: "#schemes" },
+    { name: t.header.cibil, href: "#cibil" },
+    { name: t.header.services, href: "#services" },
+    { name: t.header.products, href: "#products" },
+    { name: t.header.contact, href: "#contact" },
   ];
 
-  const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-  
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-      setIsMobileMenuOpen(false);
-    }
+  const scrollToSection = (id) => {
+    const el = document.querySelector(id);
+    if (!el) return;
+
+    window.scrollTo({
+      top: el.offsetTop - 80,
+      behavior: "smooth",
+    });
+
+    setIsOpen(false);
+    setActive(id);
   };
+
+  const isAccent = (href) => href === "#schemes" || href === "#cibil";
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'
-      }`}
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 font-sans
+        ${isScrolled ? "bg-white shadow-md" : "bg-white/80 backdrop-blur-md"}`}
     >
-      <div className="hidden lg:block bg-[#1a3a52] text-white py-2 px-4 text-sm">
-        <div className="container mx-auto flex justify-end items-center gap-6">
-          <a href={`tel:${t.contact.phoneText.replace(/\s/g, '')}`} className="flex items-center gap-2 hover:text-[#FFC107] transition-colors">
-            <Phone size={14} />
-            <span>{t.contact.phoneText}</span>
+      {/* TOP BAR */}
+      <div className="hidden lg:block bg-gradient-to-r from-[#0f2744] via-[#1a3a52] to-[#0f2744] text-white text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-end gap-6 py-1">
+          <a
+            href={`tel:${t.contact.phoneText}`}
+            className="flex items-center gap-2 text-white/70 hover:text-yellow-400"
+          >
+            <Phone size={12} />
+            {t.contact.phoneText}
           </a>
-          <a href={`mailto:${t.contact.emailText}`} className="flex items-center gap-2 hover:text-[#FFC107] transition-colors">
-            <Mail size={14} />
-            <span>{t.contact.emailText}</span>
+
+          <span className="w-px bg-white/20" />
+
+          <a
+            href={`mailto:${t.contact.emailText}`}
+            className="flex items-center gap-2 text-white/70 hover:text-yellow-400"
+          >
+            <Mail size={12} />
+            {t.contact.emailText}
           </a>
         </div>
       </div>
 
-      <nav className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
+      {/* NAVBAR */}
+      <div className="max-w-8xl mx-auto px-2 sm:px-5 lg:px-9 flex items-center justify-between min-h-[64px] sm:min-h-[72px]">
+        {/* LEFT */}
+        <div className="flex items-center gap-4 sm:gap-4">
           <motion.div
-            whileHover={{ scale: 1.02 }}
-            className="cursor-pointer"
-            onClick={() => scrollToSection('#home')}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => scrollToSection("#home")}
+            className="cursor-pointer bg-white p-1 sm:p-3 rounded-xl"
           >
             <CompanyLogo size="medium" />
           </motion.div>
 
-          <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <motion.button
-                key={link.name}
-                onClick={() => scrollToSection(link.href)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className={`font-medium transition-colors duration-200 ${
-                  link.href === '#schemes' || link.href === '#cibil' 
-                    ? 'text-[#FF9500] font-bold' 
-                    : 'text-[#1a3a52] hover:text-[#FF9500]'
-                }`}
-              >
-                {link.name}
-              </motion.button>
-            ))}
-            
-            <div className="flex items-center gap-4">
-              <LanguageToggle />
-              <Button
-                onClick={() => scrollToSection('#contact')}
-                className="bg-gradient-to-r from-[#FF9500] to-[#FFC107] hover:from-[#FFC107] hover:to-[#FF9500] text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                {t.header.getQuote}
-              </Button>
-            </div>
-          </div>
+          <div className="hidden md:block w-px h-6 sm:h-8 bg-gray-600" />
 
-          <div className="flex items-center gap-4 lg:hidden">
-            <LanguageToggle />
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-[#1a3a52] p-2"
-            >
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
+          {/* Employee Login */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() =>
+              (window.location.href = "https://www.kit19.com/login_new.aspx")
+            }
+            className="hidden md:flex items-center gap-2
+              px-4 lg:px-5 h-9 sm:h-10 rounded-xl 
+              text-xs sm:text-sm font-semibold
+              bg-gradient-to-r from-[#0f2744] to-[#1a3a52]
+              text-white shadow-md"
+          >
+            <Zap size={14} className="text-yellow-400" />
+            <span className="hidden lg:inline">Employee Login</span>
+            <ChevronRight size={14} className="text-white/50" />
+          </motion.button>
         </div>
 
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden mt-4 pb-4 bg-white border-t border-gray-100"
+        {/* DESKTOP NAV */}
+        <div className="hidden lg:flex rounded-xl items-center gap-2">
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => scrollToSection(link.href)}
+              className={`px-3 xl:px-4 py-2 rounded-xl  text-lg xl:text-base font-medium transition
+                ${
+                  isAccent(link.href)
+                    ? "text-orange-500 bg-orange-100"
+                    : "text-gray-700  bg-sky-40 hover:border-b-2 border-red-600 hover:text-black"
+                }
+                ${active === link.href && " border-b-2 border-red-600"}
+              `}
             >
-              <div className="flex flex-col gap-4 p-4">
-                {navLinks.map((link) => (
-                  <motion.button
-                    key={link.name}
-                    onClick={() => scrollToSection(link.href)}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-left text-[#1a3a52] hover:text-[#FF9500] font-medium py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    {link.name}
-                  </motion.button>
-                ))}
-                <Button
-                  onClick={() => scrollToSection('#contact')}
-                  className="bg-gradient-to-r from-[#FF9500] to-[#FFC107] hover:from-[#FFC107] hover:to-[#FF9500] text-white font-semibold w-full mt-2"
+              {link.name}
+            </button>
+          ))}
+
+          <div className="hidden md:block w-px h-6 sm:h-8 bg-gray-600" />
+
+          <LanguageToggle />
+
+          {/* CTA */}
+          <button
+            onClick={() => scrollToSection("#contact")}
+            className="ml-2 px-5 xl:px-6 h-9 sm:h-10 rounded-xl
+              text-xs sm:text-sm font-semibold tracking-tight text-white
+              bg-gradient-to-r from-orange-500 to-yellow-400
+              shadow-md hover:shadow-lg
+              hover:scale-[1.03] active:scale-[0.97]
+              transition-all duration-200"
+          >
+            {t.header.getQuote}
+          </button>
+        </div>
+
+        {/* MOBILE */}
+
+        <div className="flex lg:hidden items-center ">
+          <LanguageToggle />
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`w-9 sm:w-10 h-9 sm:h-10 m-2 flex items-center justify-center rounded-xl
+              ${
+                isOpen
+                  ? "bg-gradient-to-r from-orange-500 to-yellow-400 text-white"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+          >
+            {isOpen ? <X size={20} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE MENU */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden px-4 pb-4 mt-4"
+          >
+            <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col gap-2">
+              <button
+                onClick={() =>
+                  (window.location.href =
+                    "https://www.kit19.com/login_new.aspx")
+                }
+                className="w-full h-11 rounded-xl bg-[#1a3a52] text-white font-semibold"
+              >
+                Employee Login
+              </button>
+
+              {navLinks.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => scrollToSection(link.href)}
+                  className={`text-left px-3 py-2 rounded-md font-medium  border-b-2 border-red-600
+                    ${
+                      isAccent(link.href)
+                        ? "text-orange-500 bg-orange-100"
+                        : "text-gray-700"
+                    }`}
                 >
-                  {t.header.getQuote}
-                </Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+                  {link.name}
+                </button>
+              ))}
+
+              <button
+                onClick={() => scrollToSection("#contact")}
+                className="w-full h-11 rounded-xl
+                  bg-gradient-to-r from-orange-500 to-yellow-400
+                  text-white font-semibold"
+              >
+                {t.header.getQuote}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* SCROLL LINE */}
+      <motion.div
+        animate={{ scaleX: isScrolled ? 1 : 0 }}
+        className="h-[2px] origin-left bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500"
+      />
     </motion.header>
   );
 };
