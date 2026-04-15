@@ -454,7 +454,7 @@ const Footer = () => {
             <Zap className="w-3 h-3 text-[#FF9500]/50" />
             Developed by{" "}
             <a
-              href="https://github.com/anshu45kush"
+              href="https://www.linkedin.com/in/himanshu-kushwaha-734728333/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/40 hover:text-[#FFC107] underline-offset-2 hover:underline transition-all duration-200 ml-0.5"
@@ -463,7 +463,7 @@ const Footer = () => {
             </a>
             {" "}&amp;{" "}
             <a
-              href="#"
+              href="https://www.linkedin.com/in/ram-pratap-maurya-2a14772ab/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/40 hover:text-[#FFC107] underline-offset-2 hover:underline transition-all duration-200"
@@ -472,7 +472,7 @@ const Footer = () => {
             </a>
             {" "}· Powered by{" "}
             <a
-              href="#"
+              href="https://www.instagram.com/varyonics?igsh=MW0xZjFpNGR6eTFvMA=="
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/40 hover:text-[#FFC107] underline-offset-2 hover:underline transition-all duration-200 ml-0.5"
