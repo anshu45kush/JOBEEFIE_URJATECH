@@ -484,6 +484,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+};//tested by varionics 
 
 export default Footer;
