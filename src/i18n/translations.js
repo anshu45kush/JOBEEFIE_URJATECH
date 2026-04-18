@@ -376,7 +376,7 @@ export const translations = {
       emailLabel: "Email Us",
       addressText: "Amity Incubator Space, New Amity University Lucknow Campus",
       phoneText: "+91 91513 68100",
-      emailText: "Support@jobeefiwurjatech.in",
+      emailText: "support@jobeefieurjatech.in",
       formTitle: "Request a Free Quote",
       form: {
         name: "Full Name",
@@ -795,7 +795,7 @@ export const translations = {
       emailLabel: "ईमेल करें",
       addressText: "एमिटी इनक्यूबेटर स्पेस, न्यू एमिटी यूनिवर्सिटी लखनऊ कैंपस",
       phoneText: "+91 91513 68100",
-      emailText: "Support@jobeefiwurjatech.in",
+      emailText: "support@jobeefieurjatech.in",
       formTitle: "निःशुल्क कोटेशन का अनुरोध करें",
       form: {
         name: "पूरा नाम",

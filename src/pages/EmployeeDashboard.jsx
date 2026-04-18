@@ -1134,7 +1134,7 @@ export default function EmployeeDashboard() {
     username:    "@shobhit.sahoo",
     role:        "Employee",
     designation: "Solar Solutions Engineer",
-    email:       "Support@jobeefiwurjatech.in",
+    email:       "support@jobeefieurjatech.in",
     avatar:      null,
     joinDate:    "Jan 2024",
   });
