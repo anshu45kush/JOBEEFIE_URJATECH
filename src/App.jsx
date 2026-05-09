@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Team from "@/components/Team";           // ✅ ADD THIS LINE
 import Services from "@/components/Services";
 import Tools from "@/components/Tools";
 import SolarSetupTypes from "@/components/SolarSetupTypes";
@@ -14,7 +15,7 @@ import Subsidy from "@/components/Subsidy";
 import Warranty from "@/components/Warranty";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import Chatbot from "@/components/Chatbot";
+import Chatbot from "@/components/Chatbot"; 
 import ProductsPage from "@/components/ProductsPage";
 import GovernmentSchemes from "@/components/GovernmentSchemes";
 import CIBILScoreChecker from "@/components/CIBILScoreChecker";
@@ -61,6 +62,7 @@ function LandingPage() {
           <Subsidy />
           <Warranty />
           <Contact />
+          <Team />             {/* ✅ just before Footer */}
         </main>
         <Chatbot />
         <Footer />
@@ -76,8 +78,6 @@ function App() {
       <LanguageProvider>
         <AuthProvider>
           <TaskProvider>
-            {" "}
-            {/* ✅ THIS IS THE FIX */}
             <Routes>
               {/* Public */}
               <Route path="/" element={<LandingPage />} />
@@ -102,8 +102,7 @@ function App() {
                 }
               />
             </Routes>
-          </TaskProvider>{" "}
-          {/* ✅ THIS IS THE FIX */}
+          </TaskProvider>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>
