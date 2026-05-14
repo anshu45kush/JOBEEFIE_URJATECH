@@ -24,7 +24,7 @@ const AboutTeam = () => {
     {
       id: 3,
       name: "Shobhit Sahoo",
-      designation: "Cluster Head Officer",
+      designation: "Cluster Head Operation",
       responsibility: "Overseeing regional operations, team coordination, and ensuring efficient execution of solar projects across multiple territories.",
       image: "/images/shobhit-sahoo.png",
     },
