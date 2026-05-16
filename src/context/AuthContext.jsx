@@ -2,29 +2,45 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
+const TEMP_CREDENTIALS = {
+  admin: { email: "admin@jobeefie.in", password: "Urja@Admin2026" },
+  employee: { email: "employee@jobeefie.in", password: "Urja@Emp2026" },
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // 🔥 NEW
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    setLoading(false); // 🔥 DONE LOADING
+    setLoading(false);
   }, []);
 
   const login = (email, password) => {
-    let role = email.toLowerCase().includes("admin")
-      ? "admin"
-      : "employee";
+    if (
+      email === TEMP_CREDENTIALS.admin.email &&
+      password === TEMP_CREDENTIALS.admin.password
+    ) {
+      const userData = { email, role: "admin" };
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+      return userData;
+    }
 
-    const userData = { email, role };
+    if (
+      email === TEMP_CREDENTIALS.employee.email &&
+      password === TEMP_CREDENTIALS.employee.password
+    ) {
+      const userData = { email, role: "employee" };
+      localStorage.setItem("user", JSON.stringify(userData));
+      setUser(userData);
+      return userData;
+    }
 
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
-
-    return userData;
+    return null;
   };
 
   const logout = () => {
@@ -34,13 +50,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        loading, // 🔥 expose loading
-        login,
-        logout,
-      }}
+      value={{ user, isAuthenticated: !!user, loading, login, logout }}
     >
       {children}
     </AuthContext.Provider>

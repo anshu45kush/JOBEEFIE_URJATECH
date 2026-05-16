@@ -5,11 +5,18 @@ import { useAuth } from "@/context/AuthContext";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    setError("");
     const user = login(email, password);
+
+    if (!user) {
+      setError("Invalid email or password.");
+      return;
+    }
 
     if (user.role === "admin") {
       navigate("/admin-dashboard");
@@ -24,21 +31,21 @@ const LoginPage = () => {
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Login
         </h2>
-
         <input
           type="email"
           placeholder="Email"
           className="w-full mb-4 p-2 border rounded-lg"
           onChange={(e) => setEmail(e.target.value)}
         />
-
         <input
           type="password"
           placeholder="Password"
           className="w-full mb-4 p-2 border rounded-lg"
           onChange={(e) => setPassword(e.target.value)}
         />
-
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+        )}
         <button
           onClick={handleLogin}
           className="w-full bg-purple-700 text-white py-2 rounded-lg hover:bg-purple-800"
