@@ -50,12 +50,13 @@ const AboutTeam = () => {
       image: "/images/aryan-raj.jpeg",
     },
     {
-      id: 7,
-      name: "Himanshu Kushwaha",
-      designation: "CRM&Vendor Manager",
-      responsibility: "Managing vendor partnerships, customer relationship systems, and ensuring smooth operational coordination across solar projects.",
-      image: "/images/himanshu-kushwaha.png",
-    },
+  id: 7,
+  name: "Himanshu Kushwaha",
+  designation: "CRM&Vendor Manager",
+  responsibility: "Managing vendor partnerships, customer relationship systems, and ensuring smooth operational coordination across solar projects.",
+  image: "/images/himanshu-kushwaha.png",
+  alt: "Himanshu Kushwaha - CRM and Vendor Manager at Jobeefie Urjatech, Gonda Uttar Pradesh",
+},
   ];
 
   const stats = [
@@ -944,7 +945,7 @@ const AboutTeam = () => {
               >
                 <div className="team-card-bar" />
                 <div className="team-img-wrap">
-                  <img src={member.image} alt={member.name} loading="lazy" />
+                  <img src={member.image} alt={member.alt || member.name} loading="lazy" />
                   <div className="team-img-overlay" />
                 </div>
                 <div className="team-info">
